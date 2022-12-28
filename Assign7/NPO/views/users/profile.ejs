@@ -1,0 +1,42 @@
+<% layout('layouts/boilerplate')%>
+<!-- Profile Page -->
+<div class="row">
+  <div class="col-6">
+    <% if(user.image) { %>
+    <img src="<%= user.image.url%>" class="d-block w-100" alt="" />
+    <% } %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><%= user.username%></h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted">
+          Location: <% if(currentUser && currentUser._id.equals(user._id)) { %>
+          <form action="/edit?_method=PUT" method="post">
+            <input
+              class="form-control mb-2"
+              type="text"
+              id="location"
+              name="location"
+              value="<%= user.location%>"
+              required
+            />
+            <button class="btn btn-primary">Save Changes</button>
+          </form>
+          <% } else { %> <%= user.location %> <% } %>
+        </li>
+        <li class="list-group-item">Role: <%= user.roles.toUpperCase()%></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-6">
+    <div id="map"></div>
+  </div>
+</div>
+
+<script>
+  const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+  const user = <%- JSON.stringify(user) %>
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>

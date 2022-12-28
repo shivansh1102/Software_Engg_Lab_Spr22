@@ -1,0 +1,144 @@
+<% layout('layouts/boilerplate')%> <% let money = 0 %>
+<!-- Selecting NGO Page -->
+<div class="container">
+  <h1><%= currentUser.username %>'s Cart</h1>
+  <h2>Location: <%= currentUser.location %></h2>
+
+  <% for (let food of cart){%>
+  <div class="card mb-3">
+    <div class="row">
+      <div class="col-md-4">
+        <%if(food.food.image.url) {%>
+        <img class="img-fluid" alt="" src="<%=food.food.image.url%>" />
+        <% }else {%>
+        <img
+          class="img-fluid"
+          alt=""
+          src="https://acadianakarate.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
+        />
+        <% } %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= food.food.name %></h5>
+          <p class="card-text">
+            <small class="d-block"
+              >Restaurant: <%= food.food.restaurant.username%></small
+            >
+            <small class="text-muted d-block"
+              ><%= food.food.restaurant.location%></small
+            >
+            <strong class="d-block"
+              >Number of Plates:
+              <input
+                type="number"
+                class="mx-2"
+                id="count"
+                value="<%= food.count %>"
+                aria-label="count"
+                aria-describedby="count-label"
+                name="count"
+                min="1"
+                max="<%= (food.count + food.food.count)%>"
+                disabled
+              />
+            </strong>
+            Price: <strike style="color: red">₹<%= food.food.price %></strike>
+            ₹<%= 0.6*food.food.price %> <% money = money +
+            food.food.price*0.6*food.count %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }%>
+  <div class="card mb-3">
+    <% for(let NGO of NGOs){ %>
+    <input
+      type="radio"
+      value="<%= NGO._id %>"
+      name="NGO"
+      id="NGO"
+      class="form-check-input"
+      onclick="update(this.value)"
+    />
+    <label for="NGO" class="form-check-label">
+      <div class="card mb-3">
+        <div class="row">
+          <div class="col-md-4">
+            <%if(NGO.image.url) {%>
+            <img class="img-fluid" alt="" src="<%=NGO.image.url%>" />
+            <% }else {%>
+            <img
+              class="img-fluid"
+              alt=""
+              src="https://acadianakarate.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
+            />
+            <% } %>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"><%= NGO.username %></h5>
+              <p class="card-text">
+                <small class="text-muted d-block"><%= NGO.location%></small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </label>
+    <% } %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card-body">
+          <strong>Total Amount: ₹<%= money %> </strong>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <button class="btn btn-primary" id="rzp-button1" disabled>
+            Payment: Online
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+  let data = {};
+  // Update NGO
+  function update(NGO_id) {
+    data = {
+      amount: '<%-money%>',
+      NGO: NGO_id,
+    };
+    document.getElementById('rzp-button1').disabled = false;
+  }
+  // Pay Food
+  document.getElementById('rzp-button1').onclick = function (e) {
+    e.preventDefault();
+    console.log(data);
+    axios
+      .post('/cart/pay/donate', data, {
+        headers: headers,
+      })
+      .then((info) => {
+        var options = {
+          key: '<%-process.env.RAZORPAY_KEY%>', // Enter the Key ID generated from the Dashboard
+          name: '<%-currentUser.username%>',
+          description: 'Test Transaction',
+          image: '<%-currentUser.image.url%>',
+          order_id: info.data.id,
+          callback_url: '/cart',
+          theme: {
+            color: '#3399cc',
+          },
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+      });
+  };
+</script>

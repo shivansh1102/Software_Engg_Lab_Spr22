@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate')%>
+<!-- All Registered Restaurant Page -->
+<div class="container row">
+  <h1 class="text-center">All Registered Restaurants :</h1>
+  <% for(let restaurant of restaurants) { %>
+  <div class="card col-4 mx-2 my-2" style="width: 18rem">
+    <img
+      src="<%=restaurant.image.url?restaurant.image.url:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'%>"
+      class="card-img-top"
+      style="height: 262px; width: 262px; border: 2px solid"
+      alt="..."
+    />
+    <div class="card-body">
+      <h5 class="card-title"><%= restaurant.username %></h5>
+      <p class="card-text"><strong>Email:</strong> <%= restaurant.email %></p>
+      <p class="card-text">
+        <strong> Location: </strong><%= restaurant.location %>
+      </p>
+    </div>
+  </div>
+  <% } %>
+</div>

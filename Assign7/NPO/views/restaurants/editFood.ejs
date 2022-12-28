@@ -1,0 +1,73 @@
+<% layout('layouts/boilerplate')%>
+<!-- Edit Food Form -->
+<div class="row">
+  <h1 class="text-center">Edit Food</h1>
+  <div class="col-md-6 offset-md-3">
+    <form
+      action="/restaurants/<%= currentUser._id %>/<%= food._id %>?_method=PUT"
+      method="post"
+      novalidate
+      class="validated-form"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="title">Name</label>
+        <input
+          value="<%= food.name %> "
+          class="form-control"
+          type="text"
+          id="title"
+          name="name"
+          required
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="price-label">₹</span>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            value="<%= food.price %> "
+            aria-label="price"
+            aria-describedby="price-label"
+            name="price"
+            required
+          />
+        </div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="count">Count</label>
+        <input
+          type="number"
+          class="form-control"
+          id="count"
+          value="<%= food.count %>"
+          aria-label="count"
+          aria-describedby="count-label"
+          name="count"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="description"
+          required
+        >
+<%= food.description %></textarea
+        >
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-info">Edit Food</button>
+      </div>
+    </form>
+  </div>
+</div>

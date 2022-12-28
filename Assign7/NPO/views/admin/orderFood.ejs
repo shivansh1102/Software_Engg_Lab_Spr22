@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+<!-- All Order Detail Page -->
+<div class="container row">
+  <h1 class="text-center">Order Details :</h1>
+  <h3>Transaction Details :</h3>
+  <ul>
+    <li><strong> Payment ID :</strong> <%= order.transaction.payment_id %></li>
+    <li><strong> Order ID :</strong> <%= order.transaction.order_id %></li>
+  </ul>
+  <% for(let food of order.order) { %>
+  <div class="card col-4 mx-2 my-2" style="width: 18rem">
+    <img
+      src="<%= food.food.image.url?food.food.image.url:'https://acadianakarate.com/wp-content/uploads/2017/04/default-image.jpg'%>"
+      class="card-img-top"
+      style="height: 262px; width: 262px; border: 2px solid"
+      alt="..."
+    />
+
+    <div class="card-body">
+      <h5 class="card-title"><%= food.food.name%></h5>
+      <p class="card-text"><strong> Count : </strong><%= food.count %></p>
+      <p class="card-text"><strong> Money :</strong> ₹<%= food.money %></p>
+    </div>
+  </div>
+  <% } %>
+</div>

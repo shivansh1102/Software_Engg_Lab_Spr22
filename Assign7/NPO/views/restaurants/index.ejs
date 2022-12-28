@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate')%>
+<!-- All Restaurant Within 10km radius -->
+<div class="container">
+  <h1>All Restaurants</h1>
+
+  <% for (let restaurant of restaurants){%> <% let a=0;let c=0;let
+  latDiff=currentUser.geometry['coordinates'][1]*Math.PI/180-restaurant.geometry['coordinates'][1]*Math.PI/180;let
+  longDiff=currentUser.geometry['coordinates'][0]*Math.PI/180-restaurant.geometry['coordinates'][0]*Math.PI/180%>
+  <% a=Math.sin(latDiff/2)**2 +
+  Math.cos(currentUser.geometry['coordinates'][1]*Math.PI/180)*Math.cos(restaurant.geometry['coordinates'][1]*Math.PI/180)*Math.sin(longDiff/2)**2;
+  %> <% c=2*Math.atan2(a**0.5,(1-a)**0.5); %> <% let d=c*6371; %> <%
+  if(d<=10){%>
+  <div class="card mb-3">
+    <div class="row">
+      <div class="col-md-4">
+        <%if(restaurant.image.url) {%>
+        <img class="img-fluid" alt="" src="<%=restaurant.image.url%>" />
+        <% }else {%>
+        <img
+          class="img-fluid"
+          alt=""
+          src="https://acadianakarate.com/wp-content/uploads/2017/04/default-image-620x600.jpg"
+        />
+        <% } %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= restaurant.username %></h5>
+          <p class="card-text">
+            <small class="text-muted"><%= restaurant.location%></small>
+          </p>
+          <a class="btn btn-primary" href="/restaurants/<%=restaurant._id%>"
+            >View <%=restaurant.username%>
+          </a>
+          <br />
+          <p>
+            This Restaurant is <%= parseInt(d*100)/100%> kms from your location
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%}%> <% }%>
+</div>

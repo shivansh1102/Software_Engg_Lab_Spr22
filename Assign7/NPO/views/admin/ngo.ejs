@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate')%>
+<!-- All Registered NGOs Page -->
+<div class="container row">
+  <h1 class="text-center">All Registered NGOs :</h1>
+  <% for(let NGO of ngos) { %>
+  <div class="card col-4 mx-2 my-2" style="width: 18rem">
+    <img
+      src="<%=NGO.image.url?NGO.image.url:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'%>"
+      class="card-img-top"
+      style="height: 262px; width: 262px; border: 2px solid"
+      alt="..."
+    />
+    <div class="card-body">
+      <h5 class="card-title"><%= NGO.username %></h5>
+      <p class="card-text"><strong>Email:</strong> <%= NGO.email %></p>
+      <p class="card-text"><strong> Location: </strong><%= NGO.location %></p>
+    </div>
+  </div>
+  <% } %>
+</div>

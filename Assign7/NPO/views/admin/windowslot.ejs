@@ -1,0 +1,57 @@
+<% layout('layouts/boilerplate')%>
+<!-- Window Slot Form -->
+<div
+  class="container d-flex justify-content-center align-items-center mt-5 mb-3"
+>
+  <div class="row">
+    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+      <div class="card shadow">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Portal Timings</h5>
+          <form
+            action="/admin/windowslot"
+            method="POST"
+            class="validated-form"
+            novalidate
+          >
+            <div class="mb-3">
+              <div class="input-group">
+                <label class="form-label mr-3" for="start"
+                  >Opening time :</label
+                >
+                <input
+                  class="form-control"
+                  type="time"
+                  name="start"
+                  id="start"
+                  autofocus
+                  required
+                />
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="input-group">
+                <label class="form-label mr-3" for="end"
+                  >Closing time :&nbsp;&nbsp;</label
+                >
+                <input
+                  class="form-control"
+                  type="time"
+                  name="end"
+                  id="end"
+                  autofocus
+                  required
+                />
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <button class="btn btn-outline-success btn-block mb-3">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

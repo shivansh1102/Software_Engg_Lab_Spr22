@@ -1,0 +1,79 @@
+<% layout('layouts/boilerplate')%>
+<!-- Menu of Restaurant -->
+<div class="container mb-1">
+  <h1><%= restaurant.username%></h1>
+  <% if(currentUser && restaurant._id.equals(currentUser._id)) { %> <%
+  if(restaurant.isOpen){ %>
+  <a class="btn btn-primary mb-2" href="/restaurants/<%=restaurant._id%>/add"
+    >Add Food
+  </a>
+  <% } %> <% } %> <% for (let food of restaurant.cart){ %>
+  <div class="card mb-3">
+    <div class="row">
+      <div class="col-md-4">
+        <%if(food.food.image.url) {%>
+        <img class="img-fluid" alt="" src="<%=food.food.image.url%>" />
+        <% }else {%>
+        <img
+          class="img-fluid"
+          alt=""
+          src="https://acadianakarate.com/wp-content/uploads/2017/04/default-image.jpg"
+        />
+        <% } %>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= food.food.name %></h5>
+          <p class="card-text"><%= food.food.description %></p>
+          <p class="card-text">
+            <small class="text-muted">
+              <% if(currentUser.roles === 'restaurant' || currentUser.roles ===
+              'Admin') {%> ₹ <%= food.food.price %> <% } else { %>
+              <strike style="color: red">₹<%= food.food.price %></strike>
+              <% if(currentUser.roles === 'customer') {%> ₹<%=
+              0.8*food.food.price %> <% } else { %> ₹<%= 0.6*food.food.price %>
+              <% } %> <% } %>
+            </small>
+          </p>
+          <strong>Number Of Plates: <%= food.food.count %></strong>
+          <% if(currentUser && restaurant._id.equals(currentUser._id)) { %>
+          <div class="mt-2">
+            <% if(restaurant.isOpen){ %>
+            <a
+              class="btn btn-info mb-2"
+              href="/restaurants/<%=restaurant._id%>/<%= food.food._id %>/edit"
+              >Edit
+            </a>
+            <% } %>
+            <form
+              class="d-inline"
+              action="/restaurants/<%=restaurant._id%>/<%=food.food._id%>?_method=DELETE"
+              method="POST"
+            >
+              <% if(restaurant.isOpen){ %>
+              <button class="btn btn-danger mb-2">Remove</button>
+              <% } %>
+            </form>
+          </div>
+          <% } else if(currentUser && (currentUser.roles === 'NGO' ||
+          currentUser.roles === 'customer')) { %>
+
+          <form action="/restaurants/<%= food.food._id %>/add" method="post">
+            <input
+              type="number"
+              value="0"
+              min="1"
+              max="<%= food.food.count %>"
+              name="count"
+            />
+            <% if(currentUser.isOpen){ %>
+            <button class="btn btn-primary mb-2">Add To Cart</button>
+            <% } %>
+          </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% }%>
+</div>

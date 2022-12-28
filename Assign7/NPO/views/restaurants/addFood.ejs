@@ -1,0 +1,82 @@
+<% layout('layouts/boilerplate')%>
+<!-- Add Food Form -->
+<div class="row">
+  <h1 class="text-center">Add Food</h1>
+  <div class="col-md-6 offset-md-3">
+    <form
+      action="/restaurants/<%= currentUser._id %>"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="title">Name</label>
+        <input
+          class="form-control"
+          type="text"
+          id="title"
+          name="name"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="price-label">₹</span>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            value="0"
+            aria-label="price"
+            aria-describedby="price-label"
+            name="price"
+            required
+          />
+        </div>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="count">Count</label>
+        <input
+          type="number"
+          class="form-control"
+          id="count"
+          placeholder="0.00"
+          aria-label="count"
+          aria-describedby="count-label"
+          name="count"
+          required
+        />
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="description"
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <div class="form-file custom-file">
+          <input type="file" class="form-file-input" id="image" name="image" />
+          <label class="form-file-label" for="image">
+            <span class="form-file-text custom-file-label"
+              >Choose image(s)...</span
+            >
+            <span class="form-file-button">Browse</span>
+          </label>
+        </div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Add Food</button>
+      </div>
+    </form>
+  </div>
+</div>

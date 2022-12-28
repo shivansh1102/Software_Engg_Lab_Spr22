@@ -1,0 +1,37 @@
+<% layout('layouts/boilerplate')%>
+<!-- Order History -->
+<div class="container row">
+  <h1 class="text-center">All <%= str %> So Far :</h1>
+  <% for(let order of orders) { %>
+  <div class="card col-4 mx-2 my-2" style="width: 18rem">
+    <div class="card-body">
+      <h5 class="card-title">
+        <strong>Total Amount:</strong>₹<%= order.money %>
+      </h5>
+      <p class="card-text">
+        <strong>Mode of Payment:</strong> <%= order.modeOfPayment %>
+      </p>
+      <p class="card-text"><strong> Status: </strong><%= order.status %></p>
+      <p class="card-text">
+        <strong> Self Pick Up: </strong><%= order.selfpickup %>
+      </p>
+      <p class="card-text">
+        <small class="text-muted d-block">
+          Restaurant: <%= order.order[0].food.restaurant.username %>
+        </small>
+        <% if(order.NGO){ %>
+        <small class="text-muted d-block">
+          To: <%= order.NGO.username %>
+        </small>
+        <% } %>
+        <small class="text-muted d-block">
+          By: <%= order.user.username %>
+        </small>
+      </p>
+      <a href="/orderhistory/<%=order._id%>" class="btn btn-primary"
+        >View Details</a
+      >
+    </div>
+  </div>
+  <% } %>
+</div>
